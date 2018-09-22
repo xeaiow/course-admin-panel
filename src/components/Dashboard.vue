@@ -1,29 +1,26 @@
 <template>
     <div>
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <a class="navbar-brand" href="#">Admin</a>
+            <a class="navbar-brand" href="#">Course Admin Panel</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-                <div class="navbar-nav">
-                    <a class="nav-item nav-link active" href="#">資料管理</a>
-                </div>
-            </div>
         </nav>
+
         <div class="row">
             <div class="col-2 fhp">
                 <div class="row">
                     <div class="col align-self-center">
                         <nav class="nav flex-column content-margin left-menu">
-                            <a class="nav-link active" href="#">成員資料</a>
+                            <a class="nav-link active" @click="goto('/member')">成員資料</a>
                             <a class="nav-link" href="#">圖表預覽</a>
                             <a class="nav-link" href="#">題目篩選</a>
                         </nav>
                     </div>
                 </div>
-            </div>
+            </div> 
             <div class="col-10">
+                <p class="text-center h2 main-panel">數據主控台</p>
                 <div class="container content-margin">
                     <div class="row">
                         <div class="col-sm">
@@ -51,6 +48,11 @@
                             </div>
                         </div>
                     </div>
+                    <div class="row">
+                        <div class="col-sm">
+                            <highcharts :options="chartOptions"></highcharts>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -61,34 +63,46 @@
 export default {
     data () {
         return {
-            msg: 'Dashboard'
+            msg: 'Dashboard',
+            chartOptions: {
+                chart: {
+                    plotBackgroundColor: null,
+                    plotBorderWidth: null,
+                    plotShadow: false,
+                    type: 'pie'
+                },
+                tooltip: {
+                    pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
+                },
+                plotOptions: {
+                    pie: {
+                        allowPointSelect: true,
+                        cursor: 'pointer',
+                        dataLabels: {
+                            enabled: true,
+                        }
+                    }
+                },
+                series: [{
+                    name: '比例',
+                    colorByPoint: true,
+                    data: [{
+                        name: '男性',
+                        y: 61.41,
+                        sliced: true,
+                        selected: true
+                    }, {
+                        name: '女性',
+                        y: 11.84
+                    }]
+                }]
+            }
         }
     },
     methods:{
-        goto: function () {
-            this.$router.push('/login')
+        goto: function (link) {
+            this.$router.push(link)
         }
     }
 }
 </script>
-<style>
-    body {
-        font-family: '微軟正黑體';
-        margin: 0;
-        overflow: hidden;
-    }
-    .content-margin {
-        margin-top: 40px;
-    }
-    .left-menu a {
-        margin-left: 100px;
-        color: #FFF;
-        font-size: 18px;
-    }
-    .fhp {
-        box-sizing: border-box;
-        height: 100vh;
-        background-color: #2d4160;
-    }
-</style>
-

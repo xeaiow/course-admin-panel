@@ -1,0 +1,28 @@
+body {
+    font-family: '微軟正黑體';
+    margin: 0;
+    overflow: hidden;
+}
+.content-margin {
+    margin-top: 40px;
+}
+.left-menu a {
+    margin-left: 100px;
+    color: #FFF;
+    font-size: 18px;
+}
+.fhp {
+    box-sizing: border-box;
+    height: 100vh;
+    background-color: #2d4160;
+}
+.main-panel {
+    margin-top: 20px;
+}
+.nav-link {
+    color: #FFF !important;
+    cursor: pointer;
+}
+.nav-link:hover {
+    color: #eae3e3 !important;
+}
