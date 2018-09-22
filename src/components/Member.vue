@@ -12,9 +12,9 @@
                 <div class="row">
                     <div class="col align-self-center">
                         <nav class="nav flex-column content-margin left-menu">
-                            <a class="nav-link active" href="#">成員資料</a>
-                            <a class="nav-link" href="#">圖表預覽</a>
-                            <a class="nav-link" href="#">題目篩選</a>
+                            <a class="nav-link active navbar-hove" href="#">成員資料</a>
+                            <a class="nav-link navbar-hover" href="#">圖表預覽</a>
+                            <a class="nav-link navbar-hove" href="#">題目篩選</a>
                         </nav>
                     </div>
                 </div>

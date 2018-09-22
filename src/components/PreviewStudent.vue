@@ -6,15 +6,16 @@
                 <span class="navbar-toggler-icon"></span>
             </button>
         </nav>
+        
 
         <div class="row">
             <div class="col-2 fhp">
                 <div class="row">
                     <div class="col align-self-center">
                         <nav class="nav flex-column content-margin left-menu">
-                            <a class="nav-link active" @click="goto('/member')">成員資料</a>
-                            <a class="nav-link" href="#">圖表預覽</a>
-                            <a class="nav-link" href="#">題目篩選</a>
+                            <a class="nav-link active navbar-hove" @click="goto('/member')">成員資料</a>
+                            <a class="nav-link navbar-hove" href="#">圖表預覽</a>
+                            <a class="nav-link navbar-hove" href="#">題目篩選</a>
                         </nav>
                     </div>
                 </div>
@@ -39,7 +40,7 @@
                                         <td>{{ student.name }}</td>
                                         <td>{{ ( student.gender == 1 ? "男":"女" ) }}</td>
                                         <td>{{ student.department }}</td>
-                                        <td>{{ count }}</td>
+                                        <td>{{ convertAnswer }}</td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -50,7 +51,7 @@
                         <div class="col-sm" style="max-height:650px;overflow-y:scroll;">
                             <timeline>
                                 <div v-for="(item, i) in convertText" :key="i" style="margin-bottom:30px;">
-                                    <timeline-title font-color="#999">{{ item.question_id }}</timeline-title>
+                                    <timeline-title font-color="#999">{{ item.question }}</timeline-title>
                                     <timeline-item bg-color="#FF2E63">{{ item.answer }}</timeline-item>
                                 </div>                            
                             </timeline>
@@ -92,21 +93,38 @@ export default {
         TimelineTitle
     },
     computed: {
+        convertAnswer () {
+
+            let finalId = this.answer[this.answer.length-1].question_id
+            let self = this
+
+            this.question.forEach(function(e) {
+                if (e.parent == finalId) {
+                    self.count = e.question        
+                }
+            })
+            return this.count
+        },
         convertText () {
+            
             let q = this.question
             let self = this
+
             this.answer.forEach(function(e) {
                 let question = q[e.question_id-1]
-                e.question_id = question.question
-                e.answer = question.answer[e.answer]
-                
+                e.question = question.question
+                e.answer = question.answer[e.answer]                
             })
-            for (var i = 0; i < this.question.length; i++){
-                if (this.question[i].parent == 18) {
-                    self.count = this.question[i].question
-                }
-            }
+            // 最後分數與結果
+            // for (var i = 0; i < this.question.length; i++){
+            //     if (this.question[i].parent == 18) {
+            //         self.count = this.question[i].question
+            //     }
+            // }
             return this.answer
+            // for (var i = 0; i < ; i++){              
+            //         self.count = this.question[i].question
+            // }
         }
     }
 }
