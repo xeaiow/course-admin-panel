@@ -26,3 +26,8 @@ body {
 .nav-link:hover {
     color: #eae3e3 !important;
 }
+.append {
+    font-size: .8em;
+    margin-top: 3px;
+    color: #646c7c;
+}

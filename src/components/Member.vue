@@ -51,7 +51,7 @@
                                         <td>{{ item.name }}</td>
                                         <td>{{ item.gender }}</td>
                                         <td>{{ item.department }}</td>
-                                        <td>預覽</td>
+                                        <td><button type="button" class="btn btn-outline-success" @click="preview(item.id)">預覽</button></td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -121,6 +121,9 @@ export default {
             this.axios.get('//localhost:8000/get/student/' + this.keyword).then((response) => {
                 this.student = response.data
             })
+        },
+        preview: function (id) {
+            this.$router.push('/preview/student/' + id)
         }
     },
     created() { 

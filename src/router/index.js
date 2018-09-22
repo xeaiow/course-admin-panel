@@ -4,6 +4,7 @@ import Router from 'vue-router'
 import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
 import Member from '@/components/Member'
+import PreviewStudent from '@/components/PreviewStudent'
 
 Vue.use(Router)
 
@@ -24,6 +25,11 @@ export default new Router({
 			path: '/member',
 			name: 'Member',
 			component: Member
+		},
+		{
+			path: '/preview/student/:id',
+			name: 'PreviewStudent',
+			component: PreviewStudent
 		}
 	]
 })

@@ -1,0 +1,113 @@
+<template>
+    <div>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <a class="navbar-brand" href="#">Course Admin Panel</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav>
+
+        <div class="row">
+            <div class="col-2 fhp">
+                <div class="row">
+                    <div class="col align-self-center">
+                        <nav class="nav flex-column content-margin left-menu">
+                            <a class="nav-link active" @click="goto('/member')">成員資料</a>
+                            <a class="nav-link" href="#">圖表預覽</a>
+                            <a class="nav-link" href="#">題目篩選</a>
+                        </nav>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-10">
+                <div class="container content-margin">
+                    <div class="row">
+                        <div class="col-sm">
+                            <table class="table" v-if="student != ''">
+                                <thead class="thead-dark">
+                                    <tr>
+                                        <th scope="col" width="15%">學號</th>
+                                        <th scope="col" width="15%">姓名</th>
+                                        <th scope="col" width="10%">性別</th>
+                                        <th scope="col" width="20%">系所</th>
+                                        <th scope="col">結果</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>{{ student.username }}</td>
+                                        <td>{{ student.name }}</td>
+                                        <td>{{ ( student.gender == 1 ? "男":"女" ) }}</td>
+                                        <td>{{ student.department }}</td>
+                                        <td>{{ count }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="h2 text-center">答題過程</div>
+                    <div class="row">
+                        <div class="col-sm" style="max-height:650px;overflow-y:scroll;">
+                            <timeline>
+                                <div v-for="(item, i) in convertText" :key="i" style="margin-bottom:30px;">
+                                    <timeline-title font-color="#999">{{ item.question_id }}</timeline-title>
+                                    <timeline-item bg-color="#FF2E63">{{ item.answer }}</timeline-item>
+                                </div>                            
+                            </timeline>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</template>
+
+<script>
+import { Timeline, TimelineItem, TimelineTitle } from 'vue-cute-timeline'
+import questions from '@/assets/json/questions'
+
+export default {
+    data () {
+        return {
+            question: questions,
+            student: [],
+            answer: [],
+            count: ''
+        }
+    },
+    methods:{
+        goto: function (link) {
+            this.$router.push(link)
+        }
+    },
+    mounted: function () {
+        this.axios.get('//localhost:8000/get/preview/student/' + this.$route.params.id).then((response) => {
+            this.student = response.data.student
+            this.answer = response.data.answer
+        })
+    },
+    components: {
+        Timeline,
+        TimelineItem,
+        TimelineTitle
+    },
+    computed: {
+        convertText () {
+            let q = this.question
+            let self = this
+            this.answer.forEach(function(e) {
+                let question = q[e.question_id-1]
+                e.question_id = question.question
+                e.answer = question.answer[e.answer]
+                
+            })
+            for (var i = 0; i < this.question.length; i++){
+                if (this.question[i].parent == 18) {
+                    self.count = this.question[i].question
+                }
+            }
+            return this.answer
+        }
+    }
+}
+</script>
