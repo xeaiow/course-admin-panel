@@ -13,9 +13,9 @@
                 <div class="row">
                     <div class="col align-self-center">
                         <nav class="nav flex-column content-margin left-menu">
+                            <a class="nav-link navbar-hove" @click="goto('/')">主控制台</a>
                             <a class="nav-link active navbar-hove" @click="goto('/member')">成員資料</a>
                             <a class="nav-link navbar-hove" href="#">圖表預覽</a>
-                            <a class="nav-link navbar-hove" href="#">題目篩選</a>
                         </nav>
                     </div>
                 </div>
@@ -24,8 +24,8 @@
                 <div class="container content-margin">
                     <div class="row">
                         <div class="col-sm">
-                            <table class="table" v-if="student != ''">
-                                <thead class="thead-dark">
+                            <table class="table table-hover" v-if="student != ''">
+                                <thead>
                                     <tr>
                                         <th scope="col" width="15%">學號</th>
                                         <th scope="col" width="15%">姓名</th>
@@ -95,13 +95,21 @@ export default {
     computed: {
         convertAnswer () {
 
-            let finalId = this.answer[this.answer.length-1].question_id
+            let finalId = this.answer[this.answer.length-1]
             let self = this
 
             this.question.forEach(function(e) {
-                if (e.parent == finalId) {
-                    self.count = e.question        
+                if (e.opt == "any") {
+                    if (e.parent == finalId.question_id) {
+                        self.count = e.question    
+                    }
                 }
+                else {
+                    if (e.parent == finalId.question_id && e.opt == finalId.answer) {
+                        self.count = e.question    
+                    }
+                }
+                
             })
             return this.count
         },

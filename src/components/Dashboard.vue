@@ -12,9 +12,9 @@
                 <div class="row">
                     <div class="col align-self-center">
                         <nav class="nav flex-column content-margin left-menu">
-                            <a class="nav-link active" @click="goto('/member')">成員資料</a>
-                            <a class="nav-link" href="#">圖表預覽</a>
-                            <a class="nav-link" href="#">題目篩選</a>
+                            <a class="nav-link active navbar-hove" @click="goto('/')">主控制台</a>
+                            <a class="nav-link navbar-hove" @click="goto('/member')">成員資料</a>
+                            <a class="nav-link navbar-hove" href="#">圖表預覽</a>
                         </nav>
                     </div>
                 </div>
@@ -27,7 +27,7 @@
                             <div class="card text-white bg-dark mb-3" style="max-width: 18rem;">
                                 <div class="card-header text-center"><h2>成員</h2></div>
                                 <div class="card-body">
-                                    <h5 class="card-title text-center"><h2>501</h2></h5>
+                                    <h5 class="card-title text-center"><h2>{{ info.count }}</h2></h5>
                                 </div>
                             </div>
                         </div>
@@ -35,15 +35,15 @@
                             <div class="card text-white bg-info mb-3" style="max-width: 18rem;">
                                 <div class="card-header text-center"><h2>男性</h2></div>
                                 <div class="card-body">
-                                    <h5 class="card-title text-center"><h2>257</h2></h5>
+                                    <h5 class="card-title text-center"><h2>{{ info.male }}</h2></h5>
                                 </div>
                             </div>
                         </div>
                         <div class="col-sm">
                             <div class="card text-white bg-danger mb-3" style="max-width: 18rem;">
-                                <div class="card-header text-center"><h2>女姓</h2></div>
+                                <div class="card-header text-center"><h2>女性</h2></div>
                                 <div class="card-body">
-                                    <h5 class="card-title text-center"><h2>244</h2></h5>
+                                    <h5 class="card-title text-center"><h2>{{ info.female }}</h2></h5>
                                 </div>
                             </div>
                         </div>
@@ -63,8 +63,16 @@
 export default {
     data () {
         return {
+            info: {
+                male: '',
+                female: '',
+                count: ''
+            },
             msg: 'Dashboard',
             chartOptions: {
+                title: {
+                    text: '成員性別比例'
+                },
                 chart: {
                     plotBackgroundColor: null,
                     plotBorderWidth: null,
@@ -88,12 +96,12 @@ export default {
                     colorByPoint: true,
                     data: [{
                         name: '男性',
-                        y: 61.41,
+                        y: 1,
                         sliced: true,
                         selected: true
                     }, {
                         name: '女性',
-                        y: 11.84
+                        y: 2
                     }]
                 }]
             }
@@ -103,6 +111,16 @@ export default {
         goto: function (link) {
             this.$router.push(link)
         }
+    },
+    mounted: function () {
+        this.axios.get('//localhost:8000/get/dashboard').then((response) => {
+            let res = response.data
+            this.info.male = res.male
+            this.info.female = res.female
+            this.info.count = res.count
+            this.chartOptions.series[0].data[0].y = res.male
+            this.chartOptions.series[0].data[1].y = res.female
+        })
     }
 }
 </script>
