@@ -14,7 +14,7 @@
                         <nav class="nav flex-column content-margin left-menu">
                             <a class="nav-link navbar-hove" @click="goto('/')">主控制台</a>
                             <a class="nav-link active navbar-hove" @click="goto('/member')">成員資料</a>
-                            <a class="nav-link navbar-hove" href="#">圖表預覽</a>
+                            <a class="nav-link navbar-hove" @click="goto('/diagram')">圖表預覽</a>
                         </nav>
                     </div>
                 </div>
@@ -42,6 +42,12 @@
                         </div>
                     </div>
                 </div>
+                <download-excel
+                    class="text-center"
+                    :data="chartOptions.series[0].data"
+                    :name="chartOptions.title.text + today">
+                    <button type="button" class="btn btn-dark">匯出 Excel</button>
+                </download-excel>
 
             </div>
 
@@ -56,6 +62,7 @@ export default {
         return {
             question: questions,
             msg: 'Dashboard',
+            today: new Date().getFullYear() + '' + (new Date().getMonth()+1) + ''+new Date().getDate(),
             questDist: [],
             a: 0,
             b: 0,
@@ -150,15 +157,7 @@ export default {
                     }
                 }
             })
-            console.log(self.questDist)
         })
-    },
-    created() {
-    },
-    computed: {
-        filterQuestDist () {
-            
-        }
     }
 }
 </script>

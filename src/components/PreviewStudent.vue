@@ -15,7 +15,7 @@
                         <nav class="nav flex-column content-margin left-menu">
                             <a class="nav-link navbar-hove" @click="goto('/')">主控制台</a>
                             <a class="nav-link active navbar-hove" @click="goto('/member')">成員資料</a>
-                            <a class="nav-link navbar-hove" href="#">圖表預覽</a>
+                            <a class="nav-link navbar-hove" @click="goto('/diagram')">圖表預覽</a>
                         </nav>
                     </div>
                 </div>

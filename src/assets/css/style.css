@@ -31,3 +31,7 @@ body {
     margin-top: 3px;
     color: #646c7c;
 }
+
+.focus-pointer {
+    cursor: pointer;
+}
