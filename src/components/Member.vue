@@ -14,13 +14,13 @@
                         <nav class="nav flex-column content-margin left-menu">
                             <a class="nav-link navbar-hove" @click="goto('/')">主控制台</a>
                             <a class="nav-link active navbar-hove" @click="goto('/member')">成員資料</a>
-                            <a class="nav-link navbar-hove" href="#">圖表預覽</a>
+                            <a class="nav-link navbar-hove" @click="goto('/diagram')">圖表預覽</a>
                         </nav>
                     </div>
                 </div>
             </div> 
             <div class="col-10">
-                <p class="text-center h2 main-panel">搜尋成員{{department}}</p>
+                <p class="text-center h2 main-panel">搜尋成員 {{ department }}</p>
                 <div class="container content-margin">
                     <div class="row">
                         <div class="form-group col-md-4">
@@ -91,7 +91,7 @@
                         </div>
                     </div>
                     <div class="row">
-                        <div class="col-sm">
+                        <div class="col-sm" style="max-height:600px;overflow-y:scroll;">
                             <table class="table table-hover" v-if="student != ''">
                                 <thead>
                                     <tr>
@@ -112,6 +112,9 @@
                                     </tr>
                                 </tbody>
                             </table>
+                            <div class="alert alert-warning" role="alert" v-if="searchWarning">
+                                糟糕了，找不到任何的資料，請換個關鍵字試試看！
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,6 +130,7 @@ export default {
         return {
             question: questions,
             keyword: '',
+            searchWarning: false,
             student: [],
             department: 'all',
             msg: 'Dashboard',
@@ -176,7 +180,12 @@ export default {
             if (this.keyword == '') {
                 return false
             }
+            this.student = []
             this.axios.get('//localhost:8000/get/student/' + this.department + '/' + this.keyword).then((response) => {
+                if (response.data.length == 0) {
+                    return this.searchWarning = true
+                }
+                this.searchWarning = false
                 this.student = response.data
             })
         },

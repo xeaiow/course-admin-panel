@@ -5,6 +5,7 @@ import Dashboard from '@/components/Dashboard'
 import Login from '@/components/Login'
 import Member from '@/components/Member'
 import PreviewStudent from '@/components/PreviewStudent'
+import Diagram from '@/components/Diagram'
 
 Vue.use(Router)
 
@@ -25,6 +26,11 @@ export default new Router({
 			path: '/preview/student/:id',
 			name: 'PreviewStudent',
 			component: PreviewStudent
+		},
+		{
+			path: '/diagram/:id',
+			name: 'Diagram',
+			component: Diagram
 		}
 	]
 })
